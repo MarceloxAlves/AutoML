@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "189497851678",
+    "firebase_url": "https://automl-cde97.firebaseio.com",
+    "project_id": "automl-cde97",
+    "storage_bucket": "automl-cde97.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:189497851678:android:4dfb6a62fda39580",
+        "android_client_info": {
+          "package_name": "com.malveslin.pestdetection"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "189497851678-2qc8mml7mj26dlmqkvqblqjqumigcn6o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malveslin.pestdetection",
+            "certificate_hash": "a167b28a4ec46c878428379cb544f3ab44101761"
+          }
+        },
+        {
+          "client_id": "189497851678-50s22ucsogno8nkf25l4qkqntr6q4iua.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCicfRQem-oDWRvapCMm2Fku5PrQDrczvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "189497851678-50s22ucsogno8nkf25l4qkqntr6q4iua.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

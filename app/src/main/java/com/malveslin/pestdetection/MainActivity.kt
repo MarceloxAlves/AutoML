@@ -1,6 +1,7 @@
 package com.malveslin.pestdetection
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -15,6 +16,7 @@ import android.util.Base64
 import android.util.Log
 import android.util.LogPrinter
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.malvesin.pestdetection.*
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -39,6 +41,7 @@ class MainActivity : AppCompatActivity() {
             showPictureDialog()
         }
     }
+
 
     private fun choosePhotoFromGallary() {
         val galleryIntent = Intent(Intent.ACTION_PICK,
@@ -116,6 +119,13 @@ class MainActivity : AppCompatActivity() {
         val stream = ByteArrayOutputStream()
         bitmap.compress(CompressFormat.JPEG, 70, stream)
         return stream.toByteArray()
+    }
+
+
+    companion object {
+        fun getLaunchIntent(from: Context) = Intent(from, LoginActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
     }
 
 }

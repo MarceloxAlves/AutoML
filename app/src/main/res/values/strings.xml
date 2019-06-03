@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Pest Detection</string>
+    <string name="usu_rio">Usuário</string>
+    <string name="senha">Senha</string>
+    <string name="login">Login</string>
+    <string name="cadastrado_cadastre_se">Possui cadastro? Criar conta</string>
+    <string name="todo">TODO</string>
+    <string name="google">Acessar com Google</string>
 </resources>
