@@ -61,9 +61,13 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 if(account != null ){
                     firebaseAuthWithGoogle(account)
+                    Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
+//                    val intent = Intent(this, MainActivity::class.java)
+//                    intent.putExtra("user", account)
+//                    startActivity(intent)
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Erro: $e", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -104,9 +108,12 @@ class LoginActivity : AppCompatActivity() {
 
     private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        Toast.makeText(this, ""+ credential.toString(), Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, ""+ credential.toString(), Toast.LENGTH_LONG).show()
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
+
+                Toast.makeText(this, it.result.toString(), Toast.LENGTH_LONG).show()
+
                 startActivity(MainActivity.getLaunchIntent(this))
             } else {
                 //Toast.makeText(this, "Google sign in failed:(" + it.result.toString(), Toast.LENGTH_LONG).show()
