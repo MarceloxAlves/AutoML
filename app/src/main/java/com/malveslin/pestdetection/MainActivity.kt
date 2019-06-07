@@ -54,6 +54,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun choosePhotoFromCamera() {
+        val permission = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.CAMERA)
+
+        if (permission != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(arrayOf(Manifest.permission.CAMERA), TAKE_PHOTO_REQUEST)
+            return
+        }
+
         Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
                 startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST)
@@ -61,6 +69,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>, grantResults: IntArray
+    ) {
+        when (requestCode) {
+            TAKE_PHOTO_REQUEST -> {
+
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+
+                } else {
+                    Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                        takePictureIntent.resolveActivity(packageManager)?.also {
+                            startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST)
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     private fun showPictureDialog() {
         val pictureDialog = AlertDialog.Builder(this)
