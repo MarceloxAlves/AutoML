@@ -52,6 +52,13 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(galleryIntent, GALLERY)
     }
 
+    private fun choosePhotoFromCamera() {
+        val galleryIntent = Intent(Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+
+        startActivityForResult(galleryIntent, GALLERY)
+    }
+
 
     private fun showPictureDialog() {
         val pictureDialog = AlertDialog.Builder(this)
@@ -61,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         ) { dialog, which ->
             when (which) {
                 0 -> choosePhotoFromGallary()
+                1 -> choosePhotoFromCamera()
             }
         }
         pictureDialog.show()
