@@ -144,6 +144,8 @@ class MainActivity : AppCompatActivity() {
                                             "${response?.body()?.items?.first()?.displayName} Score: ${(response?.body()?.items?.first()?.classification?.let { it.score * 100 })}"
                                     }
 
+                                } else {
+                                    result_textview.text = "erro api"
                                 }
                             }
 
@@ -192,6 +194,8 @@ class MainActivity : AppCompatActivity() {
                                             "${response?.body()?.items?.first()?.displayName} Score: ${(response?.body()?.items?.first()?.classification?.let { it.score * 100 })}"
                                     }
 
+                                } else {
+                                    result_textview.text = "erro api"
                                 }
                             }
 
