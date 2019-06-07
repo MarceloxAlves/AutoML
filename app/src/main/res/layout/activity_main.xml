@@ -7,6 +7,11 @@
         tools:context=".MainActivity"
         android:orientation="vertical">
 
+    <ScrollView
+            android:id="@+id/Scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -16,7 +21,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="256dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="10dp"
                 android:layout_centerVertical="true"
                 tools:srcCompat="@tools:sample/avatars[1]"/>
 
@@ -38,12 +43,15 @@
                 android:id="@+id/result_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="20dp"
                 android:text="Selecione ou capture uma imagem para análise!"
                 android:layout_above="@id/uploadImageButton"
                 android:layout_centerHorizontal="true"
-                android:textSize="45px"/>
+                android:textSize="16dp"/>
 
     </RelativeLayout>
+    </ScrollView>
 
     <android.support.design.widget.NavigationView
             android:id="@+id/navigation_main"
