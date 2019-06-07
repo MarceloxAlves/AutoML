@@ -26,18 +26,17 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
-
 class MainActivity : AppCompatActivity() {
 
     private val GALLERY = 1
-    private val TAKE_PHOTO_REQUEST = 1
+    private val TAKE_PHOTO_REQUEST = 2
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Toast.makeText(this, "Bem vindo " +intent.getStringExtra("username"), Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Bem vindo " + intent.getStringExtra("username"), Toast.LENGTH_SHORT).show()
 
         uploadImageButton.setOnClickListener {
             showPictureDialog()
@@ -46,17 +45,20 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun choosePhotoFromGallary() {
-        val galleryIntent = Intent(Intent.ACTION_PICK,
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        val galleryIntent = Intent(
+            Intent.ACTION_PICK,
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        )
 
         startActivityForResult(galleryIntent, GALLERY)
     }
 
     private fun choosePhotoFromCamera() {
-        val galleryIntent = Intent(Intent.ACTION_PICK,
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        startActivityForResult(galleryIntent, GALLERY)
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, TAKE_PHOTO_REQUEST)
+            }
+        }
     }
 
 
@@ -64,7 +66,8 @@ class MainActivity : AppCompatActivity() {
         val pictureDialog = AlertDialog.Builder(this)
         pictureDialog.setTitle("Selecione uma imagem")
         val pictureDialogItems = arrayOf("Selecionar da galeria", "Tirar uma foto")
-        pictureDialog.setItems(pictureDialogItems
+        pictureDialog.setItems(
+            pictureDialogItems
         ) { dialog, which ->
             when (which) {
                 0 -> choosePhotoFromGallary()
@@ -85,37 +88,90 @@ class MainActivity : AppCompatActivity() {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
 
                     Toast.makeText(this@MainActivity, "Imagem Salva!", Toast.LENGTH_SHORT).show()
-                    result_textview.text =  "Processando....."
+                    result_textview.text = "Processando....."
                     imageView.setImageBitmap(bitmap)
 
                     val imgString = Base64.encodeToString(
-                            getBytesFromBitmap(bitmap),
-                            Base64.NO_WRAP
+                        getBytesFromBitmap(bitmap),
+                        Base64.NO_WRAP
                     )
 
 
                     val requestBody = ModelRequestBody(PayloadRequest(ModelImage(imgString)))
-                    Network("https://automl.googleapis.com/v1beta1/", true).getRetrofitClient().create(Endpoint::class.java).classifyImage(requestBody).enqueue(object : Callback<PayloadResult> {
+                    Network("https://automl.googleapis.com/v1beta1/", true).getRetrofitClient()
+                        .create(Endpoint::class.java).classifyImage(requestBody)
+                        .enqueue(object : Callback<PayloadResult> {
 
-                        override fun onResponse(call: Call<PayloadResult>?, response: Response<PayloadResult>?) {
+                            override fun onResponse(call: Call<PayloadResult>?, response: Response<PayloadResult>?) {
 
-                            if (response!!.isSuccessful) {
-                                Log.d("response", response?.body().toString())
-                                val result  = response?.body()?.items?.first()?.classification?.let { it.score * 100}.toString().toDoubleOrNull()
-                                if (result == null || result < 90){
-                                    result_textview.text =  "Não encontramos anomalias relacionadas a imagem"
-                                }else{
-                                    result_textview.text = "${response?.body()?.items?.first()?.displayName} Score: ${(response?.body()?.items?.first()?.classification?.let { it.score * 100 })}"
+                                if (response!!.isSuccessful) {
+                                    Log.d("response", response?.body().toString())
+                                    val result =
+                                        response?.body()?.items?.first()?.classification?.let { it.score * 100 }
+                                            .toString().toDoubleOrNull()
+                                    if (result == null || result < 90) {
+                                        result_textview.text = "Não encontramos anomalias relacionadas a imagem"
+                                    } else {
+                                        result_textview.text =
+                                            "${response?.body()?.items?.first()?.displayName} Score: ${(response?.body()?.items?.first()?.classification?.let { it.score * 100 })}"
+                                    }
+
                                 }
+                            }
 
+                            override fun onFailure(call: Call<PayloadResult>, t: Throwable) {
+                                print(t!!.message)
                             }
                         }
+                        )
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                    Toast.makeText(this@MainActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+            }
 
-                        override fun onFailure(call: Call<PayloadResult>, t: Throwable) {
-                            print(t!!.message)
-                        }
-                    }
+        } else if (requestCode == TAKE_PHOTO_REQUEST) {
+            if (data != null) {
+                try {
+                    val bitmap = data.extras.get("data") as Bitmap
+
+                    Toast.makeText(this@MainActivity, "Imagem Salva!", Toast.LENGTH_SHORT).show()
+                    result_textview.text = "Processando....."
+                    imageView.setImageBitmap(bitmap)
+
+                    val imgString = Base64.encodeToString(
+                        getBytesFromBitmap(bitmap),
+                        Base64.NO_WRAP
                     )
+
+
+                    val requestBody = ModelRequestBody(PayloadRequest(ModelImage(imgString)))
+                    Network("https://automl.googleapis.com/v1beta1/", true).getRetrofitClient()
+                        .create(Endpoint::class.java).classifyImage(requestBody)
+                        .enqueue(object : Callback<PayloadResult> {
+
+                            override fun onResponse(call: Call<PayloadResult>?, response: Response<PayloadResult>?) {
+
+                                if (response!!.isSuccessful) {
+                                    Log.d("response", response?.body().toString())
+                                    val result =
+                                        response?.body()?.items?.first()?.classification?.let { it.score * 100 }
+                                            .toString().toDoubleOrNull()
+                                    if (result == null || result < 90) {
+                                        result_textview.text = "Não encontramos anomalias relacionadas a imagem"
+                                    } else {
+                                        result_textview.text =
+                                            "${response?.body()?.items?.first()?.displayName} Score: ${(response?.body()?.items?.first()?.classification?.let { it.score * 100 })}"
+                                    }
+
+                                }
+                            }
+
+                            override fun onFailure(call: Call<PayloadResult>, t: Throwable) {
+                                print(t!!.message)
+                            }
+                        }
+                        )
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(this@MainActivity, "Failed!", Toast.LENGTH_SHORT).show()
