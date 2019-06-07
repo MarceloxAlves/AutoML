@@ -35,10 +35,8 @@
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="256dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:layout_centerVertical="true"
-                    tools:srcCompat="@tools:sample/avatars[1]"/>
+                    tools:srcCompat="@tools:sample/avatars[1]" android:layout_centerInParent="true"/>
 
             <Button
                     android:id="@+id/uploadImageButton"
@@ -48,7 +46,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="36dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="281dp"
                     android:background="@color/colorAccent"
                     android:text="Carregar Imagem"
                     android:layout_below="@id/imageView"
@@ -56,14 +54,13 @@
 
             <TextView
                     android:id="@+id/result_textview"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
+                    android:textAlignment="center"
                     android:layout_height="wrap_content"
-                    android:paddingStart="20dp"
-                    android:paddingTop="20dp"
                     android:text="Selecione ou capture uma imagem para análise!"
                     android:layout_above="@id/uploadImageButton"
-                    android:layout_centerHorizontal="true"
-                    android:textSize="16dp"/>
+                    android:textSize="16dp" android:layout_marginBottom="87dp" android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="1dp"/>
 
         </RelativeLayout>
     </ScrollView>

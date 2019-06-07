@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home_analises"
+            android:title="Minhas Análises" />
+        <item
+            android:id="@+id/nav_home_anomalias"
+            android:title="Anomalias" />
+        <item
+            android:id="@+id/nav_home_metricas"
+            android:title="Métricas" />
+        <item
+            android:id="@+id/nav_home_modelos"
+            android:title="Meus Modelos" />
+    </group>
+
+    <item android:title="Configurações">
+        <menu>
+            <item
+                android:id="@+id/nav_home_preferencias"
+                android:title="Preferências" />
+            <item
+                android:id="@+id/nav_home_logout"
+                android:title="Sair" />
+        </menu>
+    </item>
+
+</menu>
