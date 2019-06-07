@@ -102,7 +102,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun configureGoogleSignIn() {
         mGoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("189497851678-dq7spsftmmpro3eherlqarjamhhcf896.apps.googleusercontent.com")
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, mGoogleSignInOptions)

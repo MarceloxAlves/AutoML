@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "189497851678-dq7spsftmmpro3eherlqarjamhhcf896.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.malveslin.pestdetection",
+            "certificate_hash": "35dc3fecf1e8922b2ba5e02d092041cc32dfcedc"
+          }
+        },
+        {
           "client_id": "189497851678-1n3it4vvuqlb4g6rr5g9jmceagqrj6m1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
