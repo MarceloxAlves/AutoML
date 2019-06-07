@@ -8,17 +8,21 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.os.Bundle
 import android.provider.MediaStore
+import android.support.design.widget.NavigationView
 import android.support.v4.app.ActivityCompat
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.util.Log
 import android.util.LogPrinter
+import android.view.MenuItem
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.malvesin.pestdetection.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.app_bar_home.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,8 +30,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener  {
     private val GALLERY = 1
     private val TAKE_PHOTO_REQUEST = 2
 
@@ -35,6 +38,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         Toast.makeText(this, "Bem vindo " + intent.getStringExtra("username"), Toast.LENGTH_SHORT).show()
 
@@ -217,6 +221,13 @@ class MainActivity : AppCompatActivity() {
         val stream = ByteArrayOutputStream()
         bitmap.compress(CompressFormat.JPEG, 70, stream)
         return stream.toByteArray()
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        var fragment: Fragment? = null
+
+
+        return true
     }
 
 

@@ -86,7 +86,7 @@ data class ModelImage (@field:SerializedName("imageBytes") val imageBytes : Stri
 internal interface Endpoint {
 
     @Headers("Content-Type: application/json")
-    @POST("projects/aipede/locations/us-central1/models/ICN7510463104283517691:predict")
+    @POST("projects/aipede/locations/us-central1/models/ICN4990865398857111357:predict")
     fun classifyImage(@Body body: ModelRequestBody): Call<PayloadResult>
 }
 
