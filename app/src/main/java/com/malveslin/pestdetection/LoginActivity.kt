@@ -55,20 +55,21 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == RC_SIGN_IN ) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+            Toast.makeText(this,"" + task.exception.toString(), Toast.LENGTH_SHORT).show()
             try {
                 val account = task.getResult(ApiException::class.java)
                 if(account != null ){
                     firebaseAuthWithGoogle(account)
-                    //Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
                     onLogin(account.displayName.toString())
 //                    val intent = Intent(this, MainActivity::class.java)
 //                    intent.putExtra("user", account)
 //                    startActivity(intent)
                 }
             } catch (e: ApiException) {
-                Toast.makeText(this, "Erro: $e", Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, "Erro: -> $e", Toast.LENGTH_LONG).show()
             }
         }
     }
