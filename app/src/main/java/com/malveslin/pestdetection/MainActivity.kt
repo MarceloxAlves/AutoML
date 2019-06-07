@@ -6,23 +6,28 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
+import android.graphics.Color
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.design.widget.NavigationView
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.view.GravityCompat
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.util.Base64
 import android.util.Log
 import android.util.LogPrinter
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.malvesin.pestdetection.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_home.*
+import kotlinx.android.synthetic.main.nav_header_home.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,8 +50,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         uploadImageButton.setOnClickListener {
             showPictureDialog()
         }
+
+        setup()
+
+
     }
 
+    private fun Context.toast(message:String){
+        Toast.makeText(this@MainActivity,message,Toast.LENGTH_SHORT).show()
+    }
 
     private fun choosePhotoFromGallary() {
         val galleryIntent = Intent(
@@ -185,7 +197,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                         .enqueue(object : Callback<PayloadResult> {
 
                             override fun onResponse(call: Call<PayloadResult>?, response: Response<PayloadResult>?) {
-
+                                Toast.makeText(this@MainActivity, "" + response?.isSuccessful, Toast.LENGTH_SHORT).show()
                                 if (response!!.isSuccessful) {
                                     Log.d("response", response?.body().toString())
                                     val result =
@@ -228,6 +240,59 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
         return true
+    }
+
+    private fun setup(){
+
+        var actionBar = supportActionBar
+        actionBar?.title = "Pest detection app"
+
+
+        val drawerToggle:ActionBarDrawerToggle = object :ActionBarDrawerToggle(
+            this,
+            drawer_layout,
+            toolbar,
+            R.string.open,
+            R.string.close
+        ){
+            override fun onDrawerClosed(view:View){
+                super.onDrawerClosed(view)
+                //toast("Drawer closed")
+            }
+
+            override fun onDrawerOpened(drawerView: View){
+                super.onDrawerOpened(drawerView)
+                //toast("Drawer opened")
+            }
+        }
+
+        drawerToggle.isDrawerIndicatorEnabled = true
+        drawer_layout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        nav_view.getHeaderView(0).txtHomeUsuario.setText(intent.getStringExtra("username"))
+        nav_view.getHeaderView(0).txtHomeEmail.setText(intent.getStringExtra("email"))
+
+
+        nav_view.setNavigationItemSelectedListener{
+            when (it.itemId){
+                R.id.imageView -> toast("Image clicked")
+                R.id.nav_home_analises -> toast("Minhas analises")
+                R.id.nav_home_anomalias -> toast("Anomalias")
+                R.id.nav_home_metricas -> toast("Metricas")
+                R.id.nav_home_modelos -> toast("Modelos")
+                R.id.nav_home_preferencias -> toast("Preferencias")
+                R.id.nav_home_logout -> {
+                    toast("Sair")
+                    var intent: Intent = Intent(this, LoginActivity::class.java)
+                    startActivity(intent)
+                }
+
+            }
+            // Close the drawer
+            drawer_layout.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
 

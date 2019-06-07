@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
                 if(account != null ){
                     firebaseAuthWithGoogle(account)
                     Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
-                    onLogin(account.displayName.toString())
+                    onLogin(account.displayName.toString(), account.email.toString())
 //                    val intent = Intent(this, MainActivity::class.java)
 //                    intent.putExtra("user", account)
 //                    startActivity(intent)
@@ -87,13 +87,14 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun onLogin(username : String) {
+    private fun onLogin(username : String, email : String) {
 
         Toast.makeText(this, "entrou", Toast.LENGTH_SHORT).show()
 
         usuario.forEachIndexed { index, user ->
             var intent: Intent = Intent(this, MainActivity::class.java)
             intent.putExtra("username", username)
+            intent.putExtra("email", email)
             startActivity(intent)
 
         }
