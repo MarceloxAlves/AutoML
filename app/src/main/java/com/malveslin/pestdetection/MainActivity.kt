@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        Toast.makeText(this, "Bem vindo " +intent.getStringExtra("username"), Toast.LENGTH_SHORT).show()
+
         uploadImageButton.setOnClickListener {
             showPictureDialog()
         }

@@ -61,7 +61,8 @@ class LoginActivity : AppCompatActivity() {
                 val account = task.getResult(ApiException::class.java)
                 if(account != null ){
                     firebaseAuthWithGoogle(account)
-                    Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, "Conta: ${account.displayName}", Toast.LENGTH_LONG).show()
+                    onLogin(account.displayName.toString())
 //                    val intent = Intent(this, MainActivity::class.java)
 //                    intent.putExtra("user", account)
 //                    startActivity(intent)
@@ -79,6 +80,19 @@ class LoginActivity : AppCompatActivity() {
         usuario.forEachIndexed { index, user ->
             var intent: Intent = Intent(this, MainActivity::class.java)
             intent.putExtra("usuario", user)
+            startActivity(intent)
+
+        }
+
+    }
+
+    private fun onLogin(username : String) {
+
+        Toast.makeText(this, "entrou", Toast.LENGTH_SHORT).show()
+
+        usuario.forEachIndexed { index, user ->
+            var intent: Intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("username", username)
             startActivity(intent)
 
         }
@@ -112,9 +126,9 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
 
-                Toast.makeText(this, it.result.toString(), Toast.LENGTH_LONG).show()
+                //Toast.makeText(this, it.result.toString(), Toast.LENGTH_LONG).show()
 
-                startActivity(MainActivity.getLaunchIntent(this))
+
             } else {
                 //Toast.makeText(this, "Google sign in failed:(" + it.result.toString(), Toast.LENGTH_LONG).show()
             }
